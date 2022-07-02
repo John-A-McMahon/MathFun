@@ -332,7 +332,13 @@ int factorial(int x){
 
 
 
-
+double lnFactorial(int x){
+    double ans=0;
+    for (int i=0; i<=x; i++){
+        ans+=ln(i);
+    }
+    return ans;
+}
 
 
 
