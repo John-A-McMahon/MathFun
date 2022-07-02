@@ -58,6 +58,7 @@ double logBase(double base, double x){
             scaleStep=sqrt(scaleStep);
             step/=2;
         }
+
     }
     return log;
 }
@@ -313,7 +314,6 @@ double W(double x){
     while(newGuess!=guess){
         guess=newGuess;
         newGuess=guess-(guess*ln(guess)-input)/(ln(guess)+1);
-        printf("%lf\n",guess);
     }
     return guess;
 }
@@ -334,7 +334,7 @@ int factorial(int x){
 
 double lnFactorial(int x){
     double ans=0;
-    for (int i=0; i<=x; i++){
+    for (int i=1; i<=x; i++){
         ans+=ln(i);
     }
     return ans;
@@ -345,7 +345,7 @@ double lnFactorial(int x){
 int main()
 {
 
-    printf("%d",factorial(5));
+    printf("%lf",lnFactorial(5));
 
 
     return 0;
