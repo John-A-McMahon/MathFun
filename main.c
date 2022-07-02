@@ -1,6 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+double sqrt(double);
+double logBase(double,double);
+double ln(double);
+double pow(double, double);
+double exp(double);
+double absolute(double);
+double sign(double);
+double deriv(double(*)(double),double );
+double integr(double (*)(double),double , double ,double );
+double sin(double);
+double cos(double);
+double tan(double);
+double sec(double);
+double csc(double);
+double cot(double);
+double W(double);
+int factorial(int);
+double lnFactorial(int);
+double round(double);
+double limit(double (*)(double),double);
+double func(double);
+double mod(double, double);
+
+int main()
+{
+    printf("begin:\n");
+
+    printf("%lf\n",mod(10.0,7.0));
+    printf("%lf",limit(func,3));
+
+
+    return 0;
+}
 
 
 /*
@@ -106,10 +139,7 @@ double exp(double x){
 }
 
 
-//used to test the derivative and integral functions
-double func(double x){
-    return x;
-}
+
 
 //returns absolute value
 double absolute(double x){
@@ -177,23 +207,7 @@ double integr(double (*function)(double),double start, double end,double error){
 
 }
 
-/*
-my implimation of the mod function since C does not seem to allow its use on doubles/floats
-I use the mod function to simplify the trig
-*/
-double mod(double num, double dem){
-    double quot=num/dem;
-    while(quot>1){
-        quot-=1;
-    }
-    while(quot<-1){
-        quot+=1;
-    }
-    if(quot==1){
-        return 0;
-    }
-    return dem*quot;
-}
+
 
 
 
@@ -342,11 +356,79 @@ double lnFactorial(int x){
 
 
 
-int main()
-{
+double round(double x){
+    if(x<0){
+        x=x-0.5;
+    }
+    else{
+        x=x+0.5;
+    }
+    return x-mod(x,1.0);
+}
 
-    printf("%lf",lnFactorial(5));
 
 
-    return 0;
+double limit(double (*function)(double),double x){
+    double deltaX= 1;
+    double error=0.000000000000001;
+    while((*function)(x+deltaX)!=(*function)(x-deltaX)&&deltaX>error){
+            double old = (*function)(x+deltaX);
+            deltaX*=0.9;
+
+            if(absolute(old-(*function)(x+deltaX))>absolute((*function)(x+deltaX))){
+                if(sign((*function)(x+deltaX))!=(*function)(x-deltaX)){
+                    printf("asymptote?");
+                    return 0;
+                }
+                else if (sign((*function)(x+deltaX))==1){
+                    printf("+ infinity?");
+                    return 0;
+                }
+                else{
+                    printf("- infinity?");
+                    return 0;
+                }
+            }
+
+
+
+            if(deltaX<=error&&(sign((*function)(x+0.0001))!=sign((*function)(x+0.0001))||absolute((*function)(x+0.000001)-(*function)(x-0.000001))>0.01)) {
+                printf("osiclating?");
+                return 0;
+            }
+
+
+
+    }
+    return (*function)(x+deltaX);
+}
+
+
+//used to test the derivative, integral, and limit functions
+double func(double x){
+    if(x==3){
+        return 5;
+    }
+    return x;
+}
+
+/*
+my implimation of the mod function since C does not seem to allow its use on doubles/floats
+I use the mod function to simplify the trig
+*/
+double mod(double num, double dem){
+    if(dem==0){
+        return 0;
+    }
+    double quot=num/dem;
+    while(quot>1){
+        quot-=1;
+    }
+    while(quot<-1){
+        quot+=1;
+    }
+    if(quot==1){
+        return 0;
+    }
+    return dem*quot;
 }
