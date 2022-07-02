@@ -23,13 +23,15 @@ double round(double);
 double limit(double (*)(double),double);
 double func(double);
 double mod(double, double);
+double gamma(double);
+
 
 int main()
 {
     printf("begin:\n");
+    printf("%lf",gamma(1.5));
 
-    printf("%lf\n",mod(10.0,7.0));
-    printf("%lf",limit(func,3));
+
 
 
     return 0;
@@ -185,14 +187,12 @@ double deriv(double (*function)(double),double x){
 
 
 //uses limit process to find integral
-double integr(double (*function)(double),double start, double end,double error){
-    double deltaX = 0.1;
+double integr(double (*function)(double),double start, double end,double deltaX){
     double inte=1;
     double prevInte=0;
-    do{
-        deltaX*=0.9;
+
         if(deltaX==0){
-            break;
+            return 0;
         }
         prevInte=inte;
         double sum = 0;
@@ -201,8 +201,7 @@ double integr(double (*function)(double),double start, double end,double error){
         }
         sum*=deltaX;
         inte=sum;
-    }
-    while(absolute(inte-prevInte)>sqrt(error));
+
     return inte;
 
 }
@@ -431,4 +430,14 @@ double mod(double num, double dem){
         return 0;
     }
     return dem*quot;
+}
+
+
+double gammaInput=0;
+double gammaI(double x){
+    return pow(x,gammaInput-1)*exp(-x);
+}
+double gamma(double z){
+    gammaInput=z;
+    return integr(gammaI,0,100,0.001);
 }
