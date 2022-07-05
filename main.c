@@ -25,15 +25,13 @@ double func(double);
 double mod(double, double);
 double gamma(double);
 
+double arcsin(double);
 
 int main()
 {
-    printf("begin:\n");
-    printf("%lf",gamma(1.5));
+    printf("%lf",arcsin(-1));
 
-
-
-
+    printf("Hello\n");
     return 0;
 }
 
@@ -441,3 +439,45 @@ double gamma(double z){
     gammaInput=z;
     return integr(gammaI,0,100,0.001);
 }
+
+
+
+
+
+double arcsin(double x){
+    double stepA=PI/2;
+    double stepV=1;
+
+    double angle=0;
+    double value=0;
+
+    if(x<0){
+        stepA=-stepA;
+        stepV=-stepV;
+    }
+
+    while(absolute(value-x)>0.0000001){
+        double cosA=sqrt(1-stepV*stepV)*sign(PI-mod(stepA+PI/2,2*PI));
+        double sinA=stepV;
+        double sinB=value;
+        double cosB=sqrt(1-value*value)*sign(PI-mod(angle+PI/2,2*PI));
+        if(x>0&&sinA*cosB+sinB*cosA>x){
+            stepV=sqrt((1-cosA)/2);
+            stepA/=2;
+        }
+        else if(x<0&&sinA*cosB+sinB*cosA<x){
+            stepV=sqrt((1-cosA)/2);
+            stepA/=2;
+        }
+        else{
+            value=sinA*cosB+sinB*cosA;
+            angle+=stepA;
+        }
+        //printf("%lf\n",value);
+    }
+    return angle;
+}
+
+
+
+
