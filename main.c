@@ -29,9 +29,9 @@ double arcsin(double);
 
 int main()
 {
-    printf("%lf",arcsin(-1));
-
-    printf("Hello\n");
+    char* str= "hello";
+    str[0]='a';
+    printf("%s",str);
     return 0;
 }
 
